@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoaSocial - Réseau Social Professionnel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#F5F7FB] text-[#172033] font-['Inter',sans-serif] antialiased min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+    <div id="app" class="flex-1 flex flex-col">
+
+        <!-- ================= AUTH SCREEN ================= -->
+        <div id="auth-screen" class="flex-1 flex items-center justify-center p-4 bg-gradient-to-br from-[#2563EB] via-[#1D4ED8] to-[#1E293B]">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 border border-[#E5EAF2] relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-[#2563EB] text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-black shadow-lg shadow-blue-500/30 mb-4 tracking-tighter">K</div>
+                    <h1 class="text-3xl font-extrabold text-[#172033] tracking-tight">KoaSocial</h1>
+                    <p class="text-[#64748B] mt-1.5 text-sm">Le réseau social professionnel sur GitHub Pages</p>
+                </div>
+
+                <div class="flex bg-[#F5F7FB] p-1.5 rounded-2xl mb-6 border border-[#E5EAF2]">
+                    <button type="button" onclick="switchTab('login')" id="tab-login" class="flex-1 py-2.5 font-bold text-xs rounded-xl bg-white text-[#2563EB] shadow-xs transition">Connexion</button>
+                    <button type="button" onclick="switchTab('register')" id="tab-register" class="flex-1 py-2.5 font-bold text-xs rounded-xl text-[#64748B] transition">Inscription</button>
+                </div>
+
+                <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-[#64748B] mb-1.5">Email</label>
+                        <input type="email" id="login-email" required placeholder="sarah@mail.com" class="w-full px-4 py-3 bg-[#F5F7FB] border border-[#E5EAF2] rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:bg-white focus:outline-none text-sm transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-[#64748B] mb-1.5">Mot de passe</label>
+                        <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-3 bg-[#F5F7FB] border border-[#E5EAF2] rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:bg-white focus:outline-none text-sm transition">
+                    </div>
+                    <button type="submit" class="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-600/20 text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i> Se connecter
+                    </button>
+                </form>
+
+                <div class="mt-8 pt-6 border-t border-[#E5EAF2]">
+                    <p class="text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-3 text-center">Comptes de test (Démo)</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="quickLogin('sarah@mail.com', 'password')" class="bg-[#F5F7FB] hover:bg-blue-50 hover:text-[#2563EB] text-[#64748B] text-xs py-2 px-1 rounded-xl font-semibold transition border border-[#E5EAF2] truncate">Sarah</button>
+                        <button type="button" onclick="quickLogin('andry@mail.com', 'password')" class="bg-[#F5F7FB] hover:bg-blue-50 hover:text-[#2563EB] text-[#64748B] text-xs py-2 px-1 rounded-xl font-semibold transition border border-[#E5EAF2] truncate">Andry</button>
+                        <button type="button" onclick="quickLogin('mahmoud@mail.com', 'password')" class="bg-[#F5F7FB] hover:bg-blue-50 hover:text-[#2563EB] text-[#64748B] text-xs py-2 px-1 rounded-xl font-semibold transition border border-[#E5EAF2] truncate">Mahmoud</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MAIN APP SCREEN ================= -->
+        <div id="main-screen" class="hidden-section flex-1 flex flex-col bg-[#F5F7FB]">
+            
+            <!-- FIXED HEADER -->
+            <header class="bg-white border-b border-[#E5EAF2] sticky top-0 z-50 shadow-xs">
+                <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-6 flex-1 max-w-md">
+                        <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchView('feed')">
+                            <div class="w-10 h-10 bg-[#2563EB] text-white rounded-xl flex items-center justify-center font-black text-xl shadow-md">K</div>
+                            <span class="text-xl font-black text-[#172033] tracking-tight hidden sm:inline">KoaSocial</span>
+                        </div>
+                    </div>
+
+                    <nav class="hidden lg:flex items-center space-x-1">
+                        <button type="button" onclick="switchView('feed')" id="nav-feed" class="px-5 py-2 rounded-xl text-[#2563EB] font-bold bg-blue-50 transition flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-house text-sm"></i> <span>Fil d'actualité</span>
+                        </button>
+                        <button type="button" onclick="switchView('chat')" id="nav-chat" class="px-5 py-2 rounded-xl text-[#64748B] hover:bg-[#F5F7FB] transition flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-comments text-sm"></i> <span>Messagerie</span>
+                        </button>
+                        <button type="button" onclick="switchView('profile')" id="nav-profile" class="px-5 py-2 rounded-xl text-[#64748B] hover:bg-[#F5F7FB] transition flex items-center gap-2 text-xs">
+                            <i class="fa-solid fa-user text-sm"></i> <span>Mon Profil</span>
+                        </button>
+                    </nav>
+
+                    <div class="flex items-center space-x-3">
+                        <div class="flex items-center gap-3 pl-2 border-l border-[#E5EAF2]">
+                            <div class="w-9 h-9 bg-gradient-to-tr from-[#2563EB] to-[#1D4ED8] text-white font-bold rounded-full flex items-center justify-center text-xs shadow-sm" id="header-user-avatar">M</div>
+                            <div class="hidden xl:flex flex-col text-left">
+                                <span id="current-username" class="font-bold text-xs text-[#172033] truncate max-w-[120px]"></span>
+                                <span class="text-[10px] text-[#16A34A] font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#16A34A] inline-block"></span> En ligne</span>
+                            </div>
+                            <button type="button" onclick="logout()" class="w-9 h-9 bg-red-50 hover:bg-red-100 text-red-600 rounded-full flex items-center justify-center transition ml-1" title="Déconnexion">
+                                <i class="fa-solid fa-power-off text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN CONTAINER WITH 3 COLUMNS -->
+            <div class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- LEFT SIDEBAR -->
+                <aside class="hidden lg:block lg:col-span-1 space-y-4">
+                    <div class="bg-white rounded-2xl shadow-xs border border-[#E5EAF2] p-4 sticky top-24 space-y-2">
+                        <div onclick="switchView('feed')" class="flex items-center gap-3 p-2.5 rounded-xl bg-blue-50 text-[#2563EB] font-bold text-xs cursor-pointer transition">
+                            <i class="fa-solid fa-house w-5 text-center"></i> Fil d'actualité
+                        </div>
+                        <div onclick="switchView('chat')" class="flex items-center gap-3 p-2.5 rounded-xl text-[#64748B] hover:bg-[#F5F7FB] font-semibold text-xs cursor-pointer transition">
+                            <i class="fa-solid fa-comments w-5 text-center"></i> Messagerie
+                        </div>
+                        <div onclick="switchView('profile')" class="flex items-center gap-3 p-2.5 rounded-xl text-[#64748B] hover:bg-[#F5F7FB] font-semibold text-xs cursor-pointer transition">
+                            <i class="fa-solid fa-user w-5 text-center"></i> Mon Profil
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- CENTER COLUMN -->
+                <main class="col-span-1 lg:col-span-2 space-y-6 pb-20 lg:pb-0">
+                    
+                    <!-- VIEW: FEED -->
+                    <div id="view-feed" class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-xs border border-[#E5EAF2] p-5 space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-[#2563EB] text-white font-bold rounded-full flex items-center justify-center text-sm" id="creator-avatar">M</div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-[#172033]" id="creator-name">Utilisateur</h4>
+                                    <select id="post-privacy" class="text-[10px] bg-[#F5F7FB] border rounded-lg px-2 py-0.5 text-[#64748B] font-semibold">
+                                        <option value="public">🌐 Public</option>
+                                        <option value="friends">👥 Amis</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <form onsubmit="createPost(event)" class="space-y-3">
+                                <textarea id="post-caption" rows="3" placeholder="Qu'avez-vous fait aujourd'hui ? Partagez..." class="w-full p-3 bg-[#F5F7FB] border rounded-xl text-xs focus:outline-none"></textarea>
+                                <div id="media-preview-container" class="hidden-section grid grid-cols-2 gap-2 p-2 bg-[#F5F7FB] rounded-xl border"></div>
+                                <div class="flex justify-between items-center pt-2 border-t">
+                                    <label class="cursor-pointer bg-[#F5F7FB] hover:bg-[#E5EAF2] px-3.5 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 border">
+                                        <i class="fa-solid fa-image text-[#2563EB]"></i> Photo
+                                        <input type="file" accept="image/*" class="hidden" onchange="handleMediaSelection(this)">
+                                    </label>
+                                    <button type="submit" class="bg-[#2563EB] text-white font-bold px-6 py-2.5 rounded-xl text-xs">Publier</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="posts-container" class="space-y-6"></div>
+                    </div>
+
+                    <!-- VIEW: CHAT -->
+                    <div id="view-chat" class="hidden-section bg-white rounded-2xl shadow-xs border border-[#E5EAF2] overflow-hidden flex h-[78vh]">
+                        <div class="w-1/3 border-r flex flex-col bg-[#F5F7FB]/50">
+                            <div class="p-4 bg-white border-b font-bold text-xs uppercase text-[#64748B]">Discussions</div>
+                            <div id="friends-list" class="overflow-y-auto flex-1 divide-y"></div>
+                        </div>
+                        <div class="w-2/3 flex flex-col bg-white">
+                            <div id="chat-header" class="p-4 bg-white border-b font-bold text-xs text-[#172033]">Sélectionnez une discussion</div>
+                            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col bg-[#F5F7FB]/30">
+                                <div class="m-auto text-center text-[#64748B] text-xs">Aucune conversation active</div>
+                            </div>
+                            <div id="chat-input-area" class="p-3 bg-white border-t hidden-section">
+                                <form onsubmit="sendChatMessage(event)" class="flex gap-2">
+                                    <input type="text" id="chat-input" placeholder="Écrivez votre message..." class="flex-1 px-4 py-2.5 bg-[#F5F7FB] border rounded-xl text-xs focus:outline-none">
+                                    <button type="submit" class="bg-[#2563EB] text-white px-5 py-2.5 rounded-xl font-bold text-xs">Envoyer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIEW: PROFILE -->
+                    <div id="view-profile" class="hidden-section space-y-6">
+                        <div class="bg-white rounded-2xl shadow-xs border border-[#E5EAF2] p-6 text-center space-y-2">
+                            <div class="w-20 h-20 bg-[#2563EB] text-white font-black text-2xl rounded-full flex items-center justify-center mx-auto shadow" id="profile-avatar-initial">M</div>
+                            <h2 id="profile-name" class="text-xl font-extrabold text-[#172033]"></h2>
+                            <p id="profile-email" class="text-[#64748B] text-xs"></p>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-xs border border-[#E5EAF2] p-6 space-y-4">
+                            <h3 class="text-xs font-bold uppercase text-[#64748B]">Mes publications</h3>
+                            <div id="user-posts-container" class="space-y-4"></div>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- RIGHT SIDEBAR -->
+                <aside class="hidden lg:block lg:col-span-1 space-y-6">
+                    <div class="bg-white rounded-2xl shadow-xs border border-[#E5EAF2] p-4 space-y-3">
+                        <h3 class="font-bold text-xs uppercase text-[#64748B] pb-2 border-b">Activité récente</h3>
+                        <p class="text-xs text-gray-500">Prêt sur GitHub Pages 🚀</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/app.js"></script>
+</body>
+</html>
